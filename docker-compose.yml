@@ -6,6 +6,7 @@ services:
   nsjail:
     build: ./nsjail
 
+
   ctfd_db:
     restart: unless-stopped
     image: mariadb:10.4.7
@@ -17,6 +18,10 @@ services:
     volumes:
       - ./docker_volumes/ctfd/logs:/var/log
       - ./docker_volumes/ctfd/mysql/:/var/lib/mysql
+    expose:
+      - 3306
+    ports:
+      - "3306:3306"
     networks:
       - ctfd
     # This command is required to set important mariadb defaults
@@ -28,6 +33,10 @@ services:
     volumes:
       - ./docker_volumes/ctfd/logs:/var/log
       - ./docker_volumes/ctfd/redis/:/data
+    expose:
+      - 6379
+    ports:
+      - "6379:6379"
     networks:
       - ctfd
 
