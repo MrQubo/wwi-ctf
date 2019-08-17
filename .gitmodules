@@ -1,0 +1,6 @@
+[submodule "CTFd"]
+	path = CTFd
+	url = git@github.com:MrQubo/CTFd.git
+[submodule "nsjail"]
+	path = nsjail
+	url = git@github.com:google/nsjail.git

@@ -1,0 +1,66 @@
+version: '3'
+
+
+services:
+
+  nsjail:
+    build: ./nsjail
+
+  ctfd_db:
+    restart: unless-stopped
+    image: mariadb:10.4.7
+    environment:
+      - MYSQL_ROOT_PASSWORD=R9TS0oPt4HmPAIRvrwXUW4crbMCSCkxl
+      - MYSQL_USER=kPuelPhzvwC1tVLIQFLsXMGFBTBLsNWO
+      - MYSQL_PASSWORD=CarB3AH9mZqGJoDvuYui2GEgqmEYX0fV
+      - MYSQL_DATABASE=ctfd
+    volumes:
+      - ./docker_volumes/ctfd/logs:/var/log
+      - ./docker_volumes/ctfd/mysql/:/var/lib/mysql
+    networks:
+      - ctfd
+    # This command is required to set important mariadb defaults
+    command: [mysqld, --character-set-server=utf8mb4, --collation-server=utf8mb4_unicode_ci, --wait_timeout=28800, --log-warnings=0]
+
+  ctfd_cache:
+    restart: unless-stopped
+    image: redis:5.0.5
+    volumes:
+      - ./docker_volumes/ctfd/logs:/var/log
+      - ./docker_volumes/ctfd/redis/:/data
+    networks:
+      - ctfd
+
+  ctfd:
+    restart: unless-stopped
+    build: ./CTFd
+    depends_on:
+      - ctfd_db
+      - ctfd_cache
+    user: root
+    environment:
+      - HOST=0.0.0.0
+      - PORT=8000
+      - DATABASE_URL=mysql+pymysql://kPuelPhzvwC1tVLIQFLsXMGFBTBLsNWO:CarB3AH9mZqGJoDvuYui2GEgqmEYX0fV@ctfd_db:3306/ctfd
+      - REDIS_URL=redis://ctfd_cache:6379
+      - WORKERS=1
+      - LOG_FOLDER=/var/log/CTFd
+      - UPLOAD_FOLDER=/var/uploads
+      - ACCESS_LOG=-
+      - ERROR_LOG=-
+    volumes:
+      - ./docker_volumes/ctfd/logs:/var/log
+      - ./docker_volumes/ctfd/uploads:/var/uploads
+      - ./CTFd:/opt/CTFd:ro
+    expose:
+      - 8000
+    ports:
+      - "80:8000"
+    networks:
+      - default
+      - ctfd
+
+
+networks:
+  ctfd:
+    internal: true
