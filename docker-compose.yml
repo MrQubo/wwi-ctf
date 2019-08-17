@@ -46,7 +46,7 @@ services:
       - WORKERS=1
       - LOG_FOLDER=/var/log/CTFd
       - UPLOAD_FOLDER=/var/uploads
-      - ACCESS_LOG=-
+      - ACCESS_LOG=/var/log/CTFd/access_log
       - ERROR_LOG=-
     volumes:
       - ./docker_volumes/ctfd/logs:/var/log
