@@ -1,0 +1,9 @@
+version: '3'
+
+
+services:
+
+
+  ctfd:
+    ports:
+      - "10.0.13.37:80:8000"

@@ -8,7 +8,7 @@ services:
 
 
   ctfd_db:
-    restart: unless-stopped
+    restart: always
     image: mariadb:10.4.7
     environment:
       - MYSQL_ROOT_PASSWORD=R9TS0oPt4HmPAIRvrwXUW4crbMCSCkxl
@@ -28,7 +28,7 @@ services:
     command: [mysqld, --character-set-server=utf8mb4, --collation-server=utf8mb4_unicode_ci, --wait_timeout=28800, --log-warnings=0]
 
   ctfd_cache:
-    restart: unless-stopped
+    restart: always
     image: redis:5.0.5
     volumes:
       - ./docker_volumes/ctfd/logs:/var/log
@@ -41,7 +41,7 @@ services:
       - ctfd
 
   ctfd:
-    restart: unless-stopped
+    restart: always
     build: ./CTFd
     depends_on:
       - ctfd_db
@@ -64,10 +64,16 @@ services:
     expose:
       - 8000
     ports:
-      - "80:8000"
+      - "127.0.0.1:1337:8000"
     networks:
       - default
       - ctfd
+
+
+  tasks:
+    restart: "no"
+    image: tianon/true
+    depends_on: []
 
 
 networks:
