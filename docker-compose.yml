@@ -17,7 +17,7 @@ services:
       - MYSQL_DATABASE=ctfd
     volumes:
       - ./docker_volumes/ctfd/logs:/var/log
-      - ./docker_volumes/ctfd/mysql/:/var/lib/mysql
+      - ./docker_volumes/ctfd/mysql:/var/lib/mysql
     expose:
       - 3306
     ports:
@@ -32,7 +32,7 @@ services:
     image: redis:5.0.5
     volumes:
       - ./docker_volumes/ctfd/logs:/var/log
-      - ./docker_volumes/ctfd/redis/:/data
+      - ./docker_volumes/ctfd/redis:/data
     expose:
       - 6379
     ports:
@@ -57,6 +57,7 @@ services:
       - UPLOAD_FOLDER=/var/uploads
       - ACCESS_LOG=/var/log/CTFd/access_log
       - ERROR_LOG=-
+      - USE_RELOAD=false
     volumes:
       - ./docker_volumes/ctfd/logs:/var/log
       - ./docker_volumes/ctfd/uploads:/var/uploads
