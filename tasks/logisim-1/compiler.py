@@ -64,7 +64,7 @@ def to_number(x):
             raise AssemblyException("Invalid hex literal %s" % x)
     elif x.startswith("$"):
         return Mark(x[1:])
-    elif len(x) == 3 and x[0] == "'" and x[2] = "'":
+    elif len(x) == 3 and x[0] == "'" and x[2] == "'":
         return ord(x[1])
     else:
         raise AssemblyException("Not a number %s" % x)
@@ -95,7 +95,7 @@ class Instruction:
         self.res = line[1]
 
         if self.inst not in INST:
-            raise AssemblyException("Invalid instruction %s" % inst)
+            raise AssemblyException("Invalid instruction %s" % self.inst)
         if is_two_param_inst and self.inst not in two_param_inst:
             raise AssemblyException("Two arguments provided, but %s is not a two argument instruction" % self.inst)
 
