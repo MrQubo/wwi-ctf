@@ -8,14 +8,14 @@ INST = {
         'mul': 2,
         'rem': 3, #shift left
         'xor': 4,
-        'wnn': 5, #write if not negative
-        'wne': 6, #write if negativei
+        'wnneg': 5, #write if not negative
+        'wneg': 6, #write if negativei
         'mov': 7, #uses only A
         'shl': 8,
         'shr': 9,
         'rtl': 10,
-        # 'unimp': 11,
-        # 'unimp': 12,
+        'or': 11,
+        'and': 12,
         # 'unimp': 13,
         # 'unimp': 14,
         # 'unimp': 15
@@ -88,9 +88,9 @@ class Instruction:
             raise AssemblyException("Invalid line element count: %s" % line)
 
         self.inst = line[0]
-        self.arg1 = line[1]
-        self.arg2 = line[2]
-        self.res = line[3]
+        self.arg1 = line[2]
+        self.arg2 = line[3]
+        self.res = line[1]
 
         if self.inst not in INST:
             raise AssemblyException("Invalid instruction %s" % inst)
@@ -180,10 +180,12 @@ class Program:
             inst_bytes = inst.craft()
             bytecode += inst_bytes
             if DEBUG:
-                str_bytes = inst_bytes[::-1].hex()
-                if len(str_bytes) == 4:
+                str_bytes = inst_bytes[1::-1].hex()
+                if len(inst_bytes) == 2:
                     str_bytes += " " * 4
-                print(str_bytes, inst.line_org)
+                else:
+                    str_bytes += inst_bytes[3:1:-1].hex()
+                print(str(inst.offset) + ":\t", str_bytes, inst.line_org[:-1])
         return bytecode
 
 
@@ -192,5 +194,9 @@ if __name__ == "__main__":
     with open(sys.argv[1]) as f:
         lines = f.readlines()
     prog = Program(lines)
-    with open(sys.argv[2], 'wb') as f:
-        f.write(prog.get_bytecode())
+    out_path = ".".join(sys.argv[1].split(".")[:-1]) + ".hex"
+    with open(out_path, 'w') as f:
+        f.write("v2.0 raw\n")
+        bytecode = prog.get_bytecode()
+        for i in range(0, len(bytecode), 2):
+            f.write(bytecode[i+1::-1][:2].hex() + " ")
