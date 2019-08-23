@@ -1,5 +1,7 @@
 #!/usr/bin/python3
 
+DEBUG = True
+
 INST = {
         'add': 0,
         'sub': 1,
@@ -46,7 +48,7 @@ class Mark(str):
 
 
 def is_number(x):
-    return x.isdecimal() or x.startswith('0x')
+    return x.isdecimal() or x.startswith('0x') or x.startswith('$')
 
 
 def to_number(x):
@@ -75,7 +77,7 @@ class AssemblyException(Exception):
 
 class Instruction:
     def __init__(self, line):
-        line = line.split(" ")
+        line = line.strip().split(" ")
         if len(line) == 3:
             line.append('r0')
             is_two_param_inst = True
@@ -90,9 +92,9 @@ class Instruction:
         self.arg2 = line[2]
         self.res = line[3]
 
-        if inst not in INST:
+        if self.inst not in INST:
             raise AssemblyException("Invalid instruction %s" % inst)
-        if is_two_param_inst and inst not in two_param_inst:
+        if is_two_param_inst and self.inst not in two_param_inst:
             raise AssemblyException("Two arguments provided, but %s is not a two argument instruction" % inst)
 
         self.data = None
@@ -151,6 +153,7 @@ class Program:
                     line = line[1]
                 new_instruction = Instruction(line)
                 self.marks[mark] = new_instruction
+                self.instructions.append(new_instruction)
                 new_instruction.mark = mark
                 new_instruction.line_org = line_org
             except AssemblyException as e:
@@ -176,47 +179,18 @@ class Program:
         for inst in self.instructions:
             inst_bytes = inst.craft()
             bytecode += inst_bytes
-            if debug:
+            if DEBUG:
                 str_bytes = inst_bytes[::-1].hex()
                 if len(str_bytes) == 4:
                     str_bytes += " " * 4
                 print(str_bytes, inst.line_org)
         return bytecode
 
-def assemble():
-    bytecode = bytes()
-    code = ""
-    try:
-        while True:
-            line = input()
-            code += line + "\n"
-            line = line.split(" ")
-            if len(line) == 3:
-                line.append('r0')
-            data = None
-            if line[2].isdecimal():
-                data = int(line[2])
-                line[2] = 'data'
-            if line[3].isdecimal():
-                if data is not None:
-                    raise Exception("You can have only one data :(")
-                data = int(line[3])
-                line[3] = 'data'
-            inst = craft(line[0], line[1], line[2], line[3], data)
-            bytecode += inst
-            print(inst[::-1].hex())
-    except (KeyboardInterrupt, EOFError):
-        print(bytecode.hex())
-        with open('a.assembled', 'wb') as f:
-            f.write(bytecode)
-        with open('a.code', 'w') as f:
-            f.write(code)
-
 
 if __name__ == "__main__":
     import sys
     with open(sys.argv[1]) as f:
         lines = f.readlines()
-    prog = Program(linex)
+    prog = Program(lines)
     with open(sys.argv[2], 'wb') as f:
         f.write(prog.get_bytecode())
