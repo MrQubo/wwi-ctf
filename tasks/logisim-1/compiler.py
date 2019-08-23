@@ -7,7 +7,7 @@ INST = {
         'sub': 1,
         'mul': 2,
         'rem': 3, #shift left
-        'xor': 4,
+        'nzer': 4,
         'wnneg': 5, #write if not negative
         'wneg': 6, #write if negativei
         'mov': 7, #uses only A
@@ -16,12 +16,12 @@ INST = {
         'rtl': 10,
         'or': 11,
         'and': 12,
-        # 'unimp': 13,
+        'xor': 13,
         # 'unimp': 14,
         # 'unimp': 15
 }
 
-two_param_inst = ['mov']
+two_param_inst = ['mov', 'nzer']
 
 REG = {
         'r0': 0,
@@ -48,7 +48,7 @@ class Mark(str):
 
 
 def is_number(x):
-    return x.isdecimal() or x.startswith('0x') or x.startswith('$')
+    return x.isdecimal() or x.startswith('0x') or x.startswith('$') or x.startswith("'")
 
 
 def to_number(x):
@@ -64,6 +64,8 @@ def to_number(x):
             raise AssemblyException("Invalid hex literal %s" % x)
     elif x.startswith("$"):
         return Mark(x[1:])
+    elif len(x) == 3 and x[0] == "'" and x[2] = "'":
+        return ord(x[1])
     else:
         raise AssemblyException("Not a number %s" % x)
     if num < 0 or num > 2**16 - 1:
@@ -95,7 +97,7 @@ class Instruction:
         if self.inst not in INST:
             raise AssemblyException("Invalid instruction %s" % inst)
         if is_two_param_inst and self.inst not in two_param_inst:
-            raise AssemblyException("Two arguments provided, but %s is not a two argument instruction" % inst)
+            raise AssemblyException("Two arguments provided, but %s is not a two argument instruction" % self.inst)
 
         self.data = None
         if is_number(self.arg1):
@@ -130,7 +132,8 @@ class Program:
         self.marks = {}
         self.instructions = []
 
-        line_number = -1
+        line_number = 0
+        mark_next = None
         for line in code:
             try:
                 line_org = line
@@ -140,10 +143,11 @@ class Program:
                 if len(line) == 0:
                     continue
 
-                mark = None
+                mark = mark_next
+                mark_next = None
                 if ":" in line:
                     line = line.split(":")
-                    if len(line) != 2:
+                    if len(line) > 2:
                         raise AssemblyException("Two many ':' in line")
                     mark = line[0].strip()
                     if len(mark) == 0:
@@ -151,6 +155,10 @@ class Program:
                     if mark in self.marks:
                         raise AssemblyException("Mark already defined %s" % mark)
                     line = line[1]
+                    if len(line) == 0:
+                        mark_next = mark
+                        continue
+
                 new_instruction = Instruction(line)
                 self.marks[mark] = new_instruction
                 self.instructions.append(new_instruction)
