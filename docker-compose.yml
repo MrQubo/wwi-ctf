@@ -30,6 +30,7 @@ services:
   ctfd_cache:
     restart: always
     image: redis:5.0.5
+    user: root
     volumes:
       - ./docker_volumes/ctfd/logs:/var/log
       - ./docker_volumes/ctfd/redis:/data
