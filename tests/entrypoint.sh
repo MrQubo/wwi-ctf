@@ -22,7 +22,7 @@ do
             then
                 if ! workon --no-cd "$task_name" 2>/dev/null
                 then
-                    mkvirtualenv --python=python3 "$task_name" >/dev/null 2>&1
+                    mkvirtualenv --python=python3 --system-site-packages "$task_name" >/dev/null 2>&1
                 fi
                 pip3 install -r "$task_dir"/solution/requirements.txt >/dev/null
             fi

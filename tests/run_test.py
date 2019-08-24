@@ -1,3 +1,4 @@
+from contextlib import contextmanager
 from importlib.machinery import SourceFileLoader
 import os
 import sys
@@ -7,10 +8,19 @@ from ruamel.yaml import YAML
 yaml = YAML(typ="safe")
 
 
+@contextmanager
+def pushd(new_dir):
+    previous_dir = os.getcwd()
+    os.chdir(new_dir)
+    yield
+    os.chdir(previous_dir)
+
+
 def main():
     task_name = sys.argv[1]
     task_dir = sys.argv[2]
-    solve_path = os.path.join(task_dir, './solution/solve.py')
+    solution_dir = os.path.join(task_dir, './solution/')
+    solve_path = os.path.join(solution_dir, './solve.py')
     config_path = os.path.join(task_dir, './task.yml')
 
     env = os.environ['CTFT_ENV']
@@ -19,12 +29,13 @@ def main():
         config = yaml.load(f)
     flag = config['flag']
 
-    if env != 'prod' and flag['solution'] and flag['solution']['prod_only']:
+    if env != 'prod' and config.get('solution', {}).get('prod_only', False):
         print(f'Solution for task "{task_name}": prod_only')
         exit(0)
 
     solve = SourceFileLoader('solve', solve_path).load_module()
-    res = ''.join(solve.solve())
+    with pushd(solution_dir):
+        res = ''.join(solve.solve())
 
     if flag in res:
         exit(0)

@@ -79,8 +79,8 @@ services:
     image: tianon/true
     depends_on:
       - ctfd  # Some of the tasks are on the platform itself.
+      - template_polyglot
     networks: []
-
 
   tests:
     restart: always
@@ -88,11 +88,26 @@ services:
     depends_on:
       - tasks
     environment:
-      - CTFT_BASE_URL=http://ctfd:8000/
       - CTFT_ENV=devel
+      - CTFT_BASE_URL=http://ctfd:8000/
+      - CTFT_TEMPLATE_POLYGLOT_URL=http://template_polyglot:8000/
     volumes:
       - ./docker_volumes/tests:/tests/artifacts
       - ./tasks:/tests/tasks:ro
+    networks:
+      - default
+
+
+  template_polyglot:
+    restart: always
+    build: ./tasks/template_polyglot/task/
+    environment:
+      - HOST=0.0.0.0
+      - PORT=8000
+    expose:
+      - 8000
+    ports:
+      - '127.0.0.1:1338:8000'
     networks:
       - default
 
