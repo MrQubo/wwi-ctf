@@ -1,0 +1,4 @@
+`/robots.txt` contains Sitemap entry.
+In the sitemap many pages are listed.
+One of them contains flag.
+Participants should grep all of those pages.

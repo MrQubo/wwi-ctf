@@ -1,8 +1,14 @@
 version: '3'
 
-
 services:
 
+
+  ctfd_db:
+    environment:
+      - MYSQL_ROOT_PASSWORD=R9TS0oPt4HmPAIRvrwXUW4crbMCSCkxl
+      - MYSQL_USER=kPuelPhzvwC1tVLIQFLsXMGFBTBLsNWO
+      - MYSQL_PASSWORD=CarB3AH9mZqGJoDvuYui2GEgqmEYX0fV
+      - MYSQL_DATABASE=ctfd
 
   ctfd:
     environment:
@@ -42,3 +48,16 @@ services:
     networks:
       - default
       - ctfd
+
+
+  tests:
+    restart: always
+    build: ./tests/
+    depends_on:
+      - tasks
+    environment:
+      - CTFT_BASE_URL=https://ctf.staszic.waw.pl/
+      - CTFT_ENV=prod
+    volumes:
+      - ./docker_volumes/tests:/tests/artifacts
+      - ./tasks:/tests/tasks:ro

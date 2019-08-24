@@ -1,19 +1,21 @@
 version: '3'
 
-
 services:
 
+
   nsjail:
+    restart: 'no'
     build: ./nsjail
+    networks: []
 
 
   ctfd_db:
     restart: always
     image: mariadb:10.4.7
     environment:
-      - MYSQL_ROOT_PASSWORD=R9TS0oPt4HmPAIRvrwXUW4crbMCSCkxl
-      - MYSQL_USER=kPuelPhzvwC1tVLIQFLsXMGFBTBLsNWO
-      - MYSQL_PASSWORD=CarB3AH9mZqGJoDvuYui2GEgqmEYX0fV
+      - MYSQL_ROOT_PASSWORD=ctfd
+      - MYSQL_USER=ctfd
+      - MYSQL_PASSWORD=ctfd
       - MYSQL_DATABASE=ctfd
     volumes:
       - ./docker_volumes/ctfd/logs:/var/log
@@ -21,7 +23,7 @@ services:
     expose:
       - 3306
     ports:
-      - "3306:3306"
+      - '3306:3306'
     networks:
       - ctfd
     # This command is required to set important mariadb defaults
@@ -37,13 +39,13 @@ services:
     expose:
       - 6379
     ports:
-      - "6379:6379"
+      - '6379:6379'
     networks:
       - ctfd
 
   ctfd:
     restart: always
-    build: ./CTFd
+    build: ./CTFd/
     depends_on:
       - ctfd_db
       - ctfd_cache
@@ -51,7 +53,7 @@ services:
     environment:
       - HOST=0.0.0.0
       - PORT=8000
-      - DATABASE_URL=mysql+pymysql://kPuelPhzvwC1tVLIQFLsXMGFBTBLsNWO:CarB3AH9mZqGJoDvuYui2GEgqmEYX0fV@ctfd_db:3306/ctfd
+      - DATABASE_URL=mysql+pymysql://ctfd:ctfd@ctfd_db:3306/ctfd
       - REDIS_URL=redis://ctfd_cache:6379
       - WORKERS=1
       - LOG_FOLDER=/var/log/CTFd
@@ -66,16 +68,33 @@ services:
     expose:
       - 8000
     ports:
-      - "127.0.0.1:1337:8000"
+      - '127.0.0.1:1337:8000'
     networks:
       - default
       - ctfd
 
 
   tasks:
-    restart: "no"
+    restart: 'no'
     image: tianon/true
-    depends_on: []
+    depends_on:
+      - ctfd  # Some of the tasks are on the platform itself.
+    networks: []
+
+
+  tests:
+    restart: always
+    build: ./tests/
+    depends_on:
+      - tasks
+    environment:
+      - CTFT_BASE_URL=http://ctfd:8000/
+      - CTFT_ENV=devel
+    volumes:
+      - ./docker_volumes/tests:/tests/artifacts
+      - ./tasks:/tests/tasks:ro
+    networks:
+      - default
 
 
 networks:
