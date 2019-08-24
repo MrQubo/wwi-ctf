@@ -51,13 +51,12 @@ services:
 
 
   tests:
-    restart: always
-    build: ./tests/
-    depends_on:
-      - tasks
     environment:
-      - CTFT_BASE_URL=https://ctf.staszic.waw.pl/
       - CTFT_ENV=prod
-    volumes:
-      - ./docker_volumes/tests:/tests/artifacts
-      - ./tasks:/tests/tasks:ro
+      - CTFT_BASE_URL=https://ctf.staszic.waw.pl/
+      - CTFT_TEMPLATE_POLYGLOT_URL=http://10.0.13.38/
+
+
+  template_polyglot:
+    ports:
+      - "10.0.13.38:80:8000"

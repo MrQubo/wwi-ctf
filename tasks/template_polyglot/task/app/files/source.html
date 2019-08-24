@@ -1,0 +1,55 @@
+<html><body><code><pre>from flask import Flask, render_template_string, request, make_response, redirect, abort, send_file
+from bs4 import BeautifulSoup
+import magic
+
+app = Flask(__name__)
+
+
+def check_html(content):
+    content = content.decode(&#x27;iso8859_2&#x27;)
+    return bool(BeautifulSoup(content, &#x27;html.parser&#x27;).find()) and &#x27;&lt;html&#x27; in content
+
+
+def check_jpeg(content):
+    return magic.from_buffer(content, mime=True) == &#x27;image/jpeg&#x27;
+
+
+@app.route(&#x27;/&#x27;)
+def index():
+    return redirect(&#x27;/index.html&#x27;, 301)
+
+
+@app.route(&#x27;/upload&#x27;, methods=[&#x27;POST&#x27;])
+def upload():
+    f = request.files[&#x27;file&#x27;]
+    content = f.read()
+    if not check_jpeg(content):
+        return &#x27;Not a picture, sir.&#x27;
+    with open(f&#x27;./uploads/{f.filename}&#x27;, &#x27;wb&#x27;) as f2:
+        f2.write(content)
+    return f&#x27;Your link: &lt;a href=&quot;/uploads/{f.filename}&quot;&gt;Click&lt;/a&gt;&#x27;
+
+
+@app.route(&#x27;/uploads/&lt;name&gt;&#x27;, methods=[&#x27;GET&#x27;])
+def uploads(name):
+    try:
+        return send_file(f&#x27;./uploads/{name}&#x27;)
+    except FileNotFoundError:
+        return &#x27;I can\&#x27;t find a file&#x27;
+
+
+@app.route(&#x27;/&lt;name&gt;&#x27;, methods=[&#x27;GET&#x27;])
+def template(name):
+    try:
+        with open(f&#x27;./files/{name}&#x27;, &#x27;rb&#x27;) as f:
+            content = f.read()
+    except FileNotFoundError:
+        abort(404)
+
+    if check_html(content):
+        return render_template_string(content.decode(&#x27;iso8859_2&#x27;))
+    elif check_jpeg(content):
+        response = make_response(content)
+        response.headers[&#x27;Content-Type&#x27;] = &#x27;image/jpeg&#x27;
+        return response
+</pre></code></body></html>
