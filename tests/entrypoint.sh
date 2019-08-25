@@ -8,6 +8,8 @@ export VIRTUALENVWRAPPER_PYTHON=/usr/bin/python
 export PATH="${HOME}/.local/bin:$PATH"
 
 
+sleep 10
+
 while true
 do
     for task_dir in /tests/tasks/*
@@ -16,21 +18,21 @@ do
 
         if [ -d "$task_dir"/solution ]
         then
-            if ! workon --no-cd "$task_name" 2>/dev/null
-            then
-                mkvirtualenv --python=python3 "$task_name" >/dev/null 2>&1
-            fi
-
             if [ -r "$task_dir"/solution/requirements.txt ]
             then
+                if ! workon --no-cd "$task_name" 2>/dev/null
+                then
+                    mkvirtualenv --python=python3 "$task_name" >/dev/null 2>&1
+                fi
                 pip3 install -r "$task_dir"/solution/requirements.txt >/dev/null
             fi
-            printf "Solution for task \"$task_name\": "
-            python3 /tests/run_test.py "$task_dir"
+            python3 /tests/run_test.py "$task_name" "$task_dir"
 
             deactivate
         else
-            echo "Task \"$task_name\" has no automatic solution!"
+            echo "Solution for task \"$task_name\": no automatic solution!"
         fi
     done
+
+    sleep 3600
 done
