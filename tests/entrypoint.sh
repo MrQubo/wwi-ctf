@@ -16,17 +16,17 @@ do
 
         if [ -d "$task_dir"/solution ]
         then
-            if ! workon --no-cd "$task_name"
+            if ! workon --no-cd "$task_name" 2>/dev/null
             then
-                mkvirtualenv --python=python3 "$task_name"
+                mkvirtualenv --python=python3 "$task_name" >/dev/null 2>&1
             fi
 
             if [ -r "$task_dir"/solution/requirements.txt ]
             then
-                pip3 install -r "$task_dir"/solution/requirements.txt
+                pip3 install -r "$task_dir"/solution/requirements.txt >/dev/null
             fi
-            print "Solution for task \"$task_name\": "
-            python3 /tests/run_test.py "$task_dir" | true
+            printf "Solution for task \"$task_name\": "
+            python3 /tests/run_test.py "$task_dir"
 
             deactivate
         else
