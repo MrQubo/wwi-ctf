@@ -80,6 +80,7 @@ services:
     depends_on:
       - ctfd  # Some of the tasks are on the platform itself.
       - template_polyglot
+      - cookie_sqli
     networks: []
 
   tests:
@@ -112,6 +113,48 @@ services:
       - default
 
 
+  cookie_sqli_db:
+    restart: always
+    image: postgres:11.5-alpine
+    environment:
+      - POSTGRES_APP_USER=cookie_sqli
+      - POSTGRES_APP_PASSWORD=cookie_sqli
+      - POSTGRES_USER=cookie_sqli_super
+      - POSTGRES_PASSWORD=cookie_sqli_super
+      - POSTGRES_DB=cookie_sqli
+    # Don't need persistent volume for task.
+    volumes:
+      - ./tasks/cookie_sqli/task/init.sql:/docker-entrypoint-initdb.d/init.sql:ro
+    expose:
+      - 5432
+    ports:
+      - '5432:5432'
+    networks:
+      - cookie_sqli
+
+  cookie_sqli:
+    restart: always
+    build: ./tasks/cookie_sqli/task/
+    depends_on:
+      - cookie_sqli_db
+    environment:
+      - HOST=0.0.0.0
+      - PORT=8000
+      - POSTGRES_HOST=cookie_sqli_db
+      - POSTGRES_USER=cookie_sqli
+      - POSTGRES_PASSWORD=cookie_sqli
+      - POSTGRES_DB=cookie_sqli
+    expose:
+      - 8000
+    ports:
+      - '127.0.0.1:1339:8000'
+    networks:
+      - default
+      - cookie_sqli
+
+
 networks:
   ctfd:
+    internal: true
+  cookie_sqli:
     internal: true

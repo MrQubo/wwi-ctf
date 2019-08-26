@@ -60,3 +60,23 @@ services:
   template_polyglot:
     ports:
       - "10.0.13.38:80:8000"
+
+
+  cookie_sqli_db:
+    environment:
+      - POSTGRES_APP_USER=cookie_sqli
+      - POSTGRES_APP_PASSWORD=m7P6PCyFQpEW6dtcLKjfcFSoVPYychv9
+      - POSTGRES_USER=cookie_sqli_super
+      - POSTGRES_PASSWORD=RG97Qn1X8wSdXNbdk5qTtwnHJqloSvyC
+      - POSTGRES_DB=cookie_sqli
+
+  cookie_sqli:
+    environment:
+      - HOST=0.0.0.0
+      - PORT=8000
+      - POSTGRES_HOST=cookie_sqli_db
+      - POSTGRES_USER=cookie_sqli
+      - POSTGRES_PASSWORD=m7P6PCyFQpEW6dtcLKjfcFSoVPYychv9
+      - POSTGRES_DB=cookie_sqli
+    ports:
+      - "10.0.13.39:80:8000"

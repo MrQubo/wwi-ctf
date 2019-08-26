@@ -25,7 +25,9 @@ function login($username, $password) {
 
     setcookie('session', $session);
 
-    pg_execute($conn, 'INSERT INTO sessions VALUES($1, $2)', array($user_data['id'], $session));
+    pg_query_params($conn, 'INSERT INTO sessions VALUES($1, $2)', array($user_data['id'], $session));
+
+    header("Location: /");
   } else {
     echo 'Wrong username or password';
   }
