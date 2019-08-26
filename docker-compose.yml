@@ -75,8 +75,27 @@ services:
   tasks:
     restart: "no"
     image: tianon/true
-    depends_on: []
+    depends_on:
+      - cookie_sqli
 
+  postgres:
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: pDYAPV84eg2c9moNDSLWAeVelHKlUN
+    volumes:
+       - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+
+  cookie_sqli:
+    restart: always
+    build: ./tasks/cookie_sqli
+    environment:
+      - HOST=0.0.0.0
+      - PORT=8000
+    expose:
+      - 8000
+    ports:
+      - "127.0.0.1:1338:8000"
 
 networks:
   ctfd:
