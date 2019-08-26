@@ -1,0 +1,18 @@
+beep frequency=2000 length=0.25;delay delay-time=0.5;beep frequency=8000 length=0.25;delay delay-time=0.5;beep frequency=2000 length=0.25;delay delay-time=0.5;beep frequency=8000 length=0.25;delay delay-time=0.5;
+beep frequency=2000 length=0.25;delay delay-time=0.5;beep frequency=8000 length=0.25;delay delay-time=0.5;beep frequency=2000 length=0.25;delay delay-time=0.5;beep frequency=8000 length=0.25;delay delay-time=0.5;
+beep frequency=2000 length=0.25;delay delay-time=0.5;beep frequency=4000 length=0.25;delay delay-time=0.5;beep frequency=4000 length=0.25;delay delay-time=0.5;beep frequency=2000 length=0.25;delay delay-time=0.5;
+beep frequency=2000 length=0.25;delay delay-time=0.5;beep frequency=8000 length=0.25;delay delay-time=0.5;beep frequency=4000 length=0.25;delay delay-time=0.5;beep frequency=8000 length=0.25;delay delay-time=0.5;
+beep frequency=2000 length=0.25;delay delay-time=0.5;beep frequency=1000 length=0.25;delay delay-time=0.5;beep frequency=4000 length=0.25;delay delay-time=0.5;beep frequency=2000 length=0.25;delay delay-time=0.5;
+beep frequency=2000 length=0.25;delay delay-time=0.5;beep frequency=1000 length=0.25;delay delay-time=0.5;beep frequency=1000 length=0.25;delay delay-time=0.5;beep frequency=8000 length=0.25;delay delay-time=0.5;
+beep frequency=2000 length=0.25;delay delay-time=0.5;beep frequency=4000 length=0.25;delay delay-time=0.5;beep frequency=8000 length=0.25;delay delay-time=0.5;beep frequency=8000 length=0.25;delay delay-time=0.5;
+beep frequency=2000 length=0.25;delay delay-time=0.5;beep frequency=4000 length=0.25;delay delay-time=0.5;beep frequency=8000 length=0.25;delay delay-time=0.5;beep frequency=2000 length=0.25;delay delay-time=0.5;
+beep frequency=1000 length=0.25;delay delay-time=0.5;beep frequency=8000 length=0.25;delay delay-time=0.5;beep frequency=1000 length=0.25;delay delay-time=0.5;beep frequency=8000 length=0.25;delay delay-time=0.5;
+beep frequency=1000 length=0.25;delay delay-time=0.5;beep frequency=8000 length=0.25;delay delay-time=0.5;beep frequency=1000 length=0.25;delay delay-time=0.5;beep frequency=2000 length=0.25;delay delay-time=0.5;
+beep frequency=2000 length=0.25;delay delay-time=0.5;beep frequency=4000 length=0.25;delay delay-time=0.5;beep frequency=8000 length=0.25;delay delay-time=0.5;beep frequency=4000 length=0.25;delay delay-time=0.5;
+beep frequency=2000 length=0.25;delay delay-time=0.5;beep frequency=2000 length=0.25;delay delay-time=0.5;beep frequency=1000 length=0.25;delay delay-time=0.5;beep frequency=1000 length=0.25;delay delay-time=0.5;
+beep frequency=2000 length=0.25;delay delay-time=0.5;beep frequency=4000 length=0.25;delay delay-time=0.5;beep frequency=2000 length=0.25;delay delay-time=0.5;beep frequency=2000 length=0.25;delay delay-time=0.5;
+beep frequency=2000 length=0.25;delay delay-time=0.5;beep frequency=4000 length=0.25;delay delay-time=0.5;beep frequency=1000 length=0.25;delay delay-time=0.5;beep frequency=2000 length=0.25;delay delay-time=0.5;
+beep frequency=2000 length=0.25;delay delay-time=0.5;beep frequency=4000 length=0.25;delay delay-time=0.5;beep frequency=1000 length=0.25;delay delay-time=0.5;beep frequency=8000 length=0.25;delay delay-time=0.5;
+beep frequency=1000 length=0.25;delay delay-time=0.5;beep frequency=8000 length=0.25;delay delay-time=0.5;beep frequency=1000 length=0.25;delay delay-time=0.5;beep frequency=8000 length=0.25;delay delay-time=0.5;
+beep frequency=2000 length=0.25;delay delay-time=0.5;beep frequency=8000 length=0.25;delay delay-time=0.5;beep frequency=8000 length=0.25;delay delay-time=0.5;beep frequency=2000 length=0.25;delay delay-time=0.5;
+# Total time= 34 s
