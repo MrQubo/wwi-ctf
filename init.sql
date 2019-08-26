@@ -1,5 +1,8 @@
-CREATE DATABASE cookie_sqli;
-\c cookie_sqli;
+\set POSTGRES_APP_USER `echo $POSTGRES_APP_USER`
+\set POSTGRES_APP_PASSWORD `echo $POSTGRES_APP_PASSWORD`
+\set POSTGRES_DB `echo $POSTGRES_DB`
+
+\c :POSTGRES_DB;
 
 CREATE TABLE users (
     id SERIAL NOT NULL PRIMARY KEY,
@@ -17,10 +20,10 @@ CREATE TABLE data (
     data TEXT
 );
 
-CREATE ROLE cookie_sqli WITH LOGIN PASSWORD 'h6LEupySib86eMna5w9BuRzD0sm2vI';
+CREATE ROLE :POSTGRES_APP_USER WITH LOGIN PASSWORD :'POSTGRES_APP_PASSWORD';
 
-GRANT SELECT ON TABLE users, sessions, data TO cookie_sqli;
-GRANT INSERT ON TABLE sessions TO cookie_sqli;
+GRANT SELECT ON TABLE users, sessions, data TO :POSTGRES_APP_USER;
+GRANT INSERT ON TABLE sessions TO :POSTGRES_APP_USER;
 
 INSERT INTO users (id, username, password) VALUES
     (1, 'admin', '$2y$10$HE570XU.gSfl.g0mJE8e0eBfilxpaUqx9PZwbbFyd1JbfaS7mAyjm'),

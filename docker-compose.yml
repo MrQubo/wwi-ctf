@@ -82,7 +82,10 @@ services:
     image: postgres
     restart: always
     environment:
+      POSTGRES_DB: cookie_sqli
       POSTGRES_PASSWORD: pDYAPV84eg2c9moNDSLWAeVelHKlUN
+      POSTGRES_APP_USER: cookie_sqli
+      POSTGRES_APP_PASSWORD: h6LEupySib86eMna5w9BuRzD0sm2vI
     volumes:
        - ./init.sql:/docker-entrypoint-initdb.d/init.sql
 
