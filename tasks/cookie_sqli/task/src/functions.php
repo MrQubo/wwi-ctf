@@ -33,7 +33,7 @@ function login($username, $password) {
   }
 }
 
-function print_data($session) {
+function data_for_session($session) {
   $conn = connect();
 
   $data_query = pg_query($conn, 'SELECT data FROM data JOIN sessions ON
@@ -41,6 +41,6 @@ function print_data($session) {
                                 . $session . '\'');
   $data_data = pg_fetch_array($data_query)['data'];
 
-  echo $data_data;
+  return $data_data;
 }
 ?>
