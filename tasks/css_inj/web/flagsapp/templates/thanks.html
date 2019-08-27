@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block title %}Submit Flag{% endblock %}
+
+{% block content %}
+  <h2>Thanks for your submition. Admin will review it shortly!</h2>
+
+  <script lang="javascript">
+      window.setTimeout(function () {
+          window.location = "{% url 'listflag' %}";
+      }, 5000);
+  </script>
+{% endblock %}

@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+{% block title %}FLAG{% endblock %}
+
+{% block add_header %}
+    <link rel="stylesheet" type="text/css" href="{% url 'css' id=flag.id %}">
+{% endblock %}
+
+{% block content %}
+  <div id="show-flag">{{ flag }}</div>
+  <a href="{% url 'listflag' %}">Back to list</a>
+{% endblock %}

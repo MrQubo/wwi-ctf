@@ -80,3 +80,7 @@ services:
       - POSTGRES_DB=cookie_sqli
     ports:
       - "10.0.13.39:80:80"
+  
+  cssinjweb:
+    ports:
+      - "10.0.13.40:80:8000"

@@ -1,1 +1,4 @@
 /docker_volumes/
+__pycache__
+venv
+*.sqlite3

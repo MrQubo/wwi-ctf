@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% block title %}Flags{% endblock %}
+
+{% block content %}
+  <h2>Flags</h2>
+
+  <a href="{% url 'submitflag' %}"><h4>Submit new flag</h4></a>
+
+  <div>
+    <h4>Flags awaiting review:</h4>
+    <ul>
+    {% for flag in flags_awaiting %}
+      <li>{{ flag }} <a href="{% url 'show_flag' id=flag.pk %}">Show in all GLORY!!!</a> <a href="{% url 'flag-favourite' id=flag.id %}">Set favourite</a></li>
+
+    {% endfor %}
+    </ul>
+  </div>
+
+  <div>
+    <h4>Flags rejected:</h4>
+    <ul>
+    {% for flag in flags_reviewed %}
+      <li>{{ flag }} <a href="{% url 'flag-favourite' id=flag.id %}">Set favourite</a></li>
+    {% endfor %}
+    </ul>
+  </div>
+
+  <a href="{% url 'home' %}">Back</a>
+{% endblock %}

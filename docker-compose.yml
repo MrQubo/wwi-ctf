@@ -148,9 +148,32 @@ services:
       - default
       - cookie_sqli
 
+  cssinjweb:
+    restart: always
+    build: ./tasks/css_inj/web/
+    expose:
+      - 8000
+    ports:
+      - '127.0.0.1:1340:8000'
+    networks:
+      - default
+      - css_inj
+
+  cssinjbot:
+    restart: always
+    build: ./tasks/css_inj/bot/
+    depends_on:
+      - cssinjweb
+    networks:
+      - default
+      - css_inj
+
+
 
 networks:
   ctfd:
     internal: true
   cookie_sqli:
+    internal: true
+  css_inj:
     internal: true
