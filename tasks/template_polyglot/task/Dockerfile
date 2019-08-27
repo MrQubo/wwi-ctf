@@ -15,6 +15,8 @@ COPY ./entrypoint.sh /opt/entrypoint.sh
 COPY ./flag.txt /flag.txt
 COPY ./app/ /opt/app/
 RUN chown root:root -R /opt/ && \
-    chmod u+x /opt/entrypoint.sh && \
-    chown 1001:1001 -R /opt/app/ && \
     chown root:root /flag.txt
+    chown root:1001 -R /opt/app/ && \
+    chmod u+x /opt/entrypoint.sh && \
+    chmod g+w /opt/app/files/ && \
+    chmod g+w /opt/app/uploads/ && \
