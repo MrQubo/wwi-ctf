@@ -12,7 +12,7 @@ class Command(BaseCommand):
                                  'SkjwYOSuOps39gjvHIckEw')
         user.user_permissions.add(Permission.objects.get(name='can_review'))
         user.save()
-        flag = Flag.objects.create(owner=user, awaiting_check=False, flag="wwi{C55-Runn1ngCod3With0utRunn1ngCOd3}", css="")
+        flag = Flag.objects.create(owner=user, awaiting_check=False, flag="wwi{C55Runn1ngCod3With0utRunn1ngCOd3}", css="")
         flag.save()
         fav = Favourite.objects.create(flag=flag, user=user)
         fav.save()
