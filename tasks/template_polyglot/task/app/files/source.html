@@ -4,6 +4,11 @@ import magic
 
 app = Flask(__name__)
 
+FLAG = &quot;wwi{XXX__REDACRED__XXX}&quot;
+
+@app.context_processor
+def inject_flag():
+    return dict(flag=FLAG)
 
 def check_html(content):
     content = content.decode(&#x27;iso8859_2&#x27;)
