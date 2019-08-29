@@ -34,7 +34,11 @@ function nV7ly7nu_gib_me_flag(flag) {
   sum2 //= 10;
   if (flag[sum2] == 4) return;
   if (sum2 / flag[sum2/10] != 30) {return}
-  if (flag[0] == 'xd') {return}
+  /* if (flag[0] != 'w') return;
+   * if (flag[1] != 'w') return;
+   * if (flag[2] != 'i') return;
+   * if (flag[3] != '{') return;
+   * if (flag[flag.length-1] != '}') return; */
   let correct_flag = '';
   for (let x in flag)
     correct_flag += x;
