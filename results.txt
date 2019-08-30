@@ -1,0 +1,47 @@
+Place 	Team 	Score
+
+1	Skorpion	3432
+
+2	n0thing	2707
+
+3	barpec12	2242
+
+4	ACEs: Arbitrary Code Execution specialists	1711
+
+5	404_team_(404_team_not_found)_not_found--BTW_WE_USE_ARCH!!!	1275
+
+6	tmk	969
+
+7	MAK	777
+
+8	Dywizjon303	777
+
+9	Hakerska Koalicja Antyfrancuska	777
+
+10	чысрак	474
+
+11	Deck	474
+
+12	SzanujmyInwizycjęRzymską	199
+
+13	RAM	199
+
+14	404_team_not_found	199
+
+15	WariacikiXD	199
+
+16	MatkaBoskaCetefowska	199
+
+17	Afk	157
+
+18	mamo daj mi 100 pls	157
+
+19	cyce Benia	42
+
+20	Mongolscy przemytnicy rzeżuchy	42
+
+21	warzywo	42
+
+22	<tba>	42
+
+23	AdamG	42
